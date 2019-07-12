@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+  <script src="/static/js/jquery-3.3.1.min.js"></script>
+
+<body>
+	<div><text id = 'file_name'>{{ file_name }}</text></div>
+	<div><text id = 'bar'></text><div>
+	共有{{ numbers }}个账号 
+	<div><button id='search'>查询登记</button></div>
+	<div><a href="/search_result/{{ file_name }}" id='regist_result'>登记结果</div>
+	{% for data in datas %}
+		<div><a href=''>{{ data[0] }}</a></div>
+	{% endfor %}
+</body>
+<script>
+	var if_server = 0;
+	$('#search').click(function(){
+		if_server = 1;
+		$('#search').text('正在查询');
+		$.ajax({
+			type: "POST",
+			dataType: "text",//预期服务器返回的数据类型
+			url: "/search_regist/"+$('#file_name').text(),
+			success: function (result) {
+			}
+		});
+
+	});
+
+	// $('#regist_result').click(function(){
+	// 	$.ajax({
+	// 		type: "GET",
+	// 		dataType: "text",//预期服务器返回的数据类型
+	// 		url: "/regist_result",
+	// 		data: $('#file_name').text(),
+	// 		success: function (result) {
+	// 		}
+	// 	});
+	// });
+
+	setInterval(function() {
+		// if(if_server==1){
+			$.ajax({
+				type: "POST",
+				dataType: "text",//预期服务器返回的数据类型
+				url: "/getbar/"+$('#file_name').text(),
+				// data: $('#form1').serialize(),
+				success: function (result) {
+					  datas = result;
+					  var $bar = $('#bar');
+					  $bar.text(result);}
+				});
+		// }
+	},1000)
+</script>
+</html>

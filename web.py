@@ -53,7 +53,7 @@ def get_files():
 		files = []
 		path = session['path']
 		for file in os.listdir(path):
-			if os.path.isfile(file) and 'txt' in file:
+			if os.path.isfile(os.path.join(path,file)) and 'txt' in file:
 				files.append(file)
 		return json.dumps(files)
 

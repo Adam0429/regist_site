@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>123</title>
+	<title></title>
+	  <script src="/static/js/jquery-3.3.1.min.js"></script>
+
 </head>
 <body>
-	
+	<div>{{ Username }}</text></div>
  <!--在文件上传时form表单的数据传输方式必须为post，并且编码格式必须为multipart/form-data，否则服务器端是无法获取传输的文件数据-->
     <form action="/upload_file" method="post" enctype="multipart/form-data">	
     <input type="file" name="file">
 <!-- 	<input type="text" name="text">
  -->	<input type="submit">
+ 	<text id="files"></text>
 </form>
 <body>
+
+<script>
+	$.ajax({
+		type: "POST",
+		dataType: "json",//预期服务器返回的数据类型
+		url: "/get_files",
+		success: function (result) {
+			i = result.length;
+			for(i = 0; i < result.length; i++){
+				$('#files').append("<div><a href='/server/"+result[i]+"'>"+result[i]+"</a></div>");
+			}
+			// $('#files').text(result);
+		}
+	});
+</script>
 </html>

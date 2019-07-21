@@ -88,7 +88,6 @@ class ShengdaoClient:
 		try:
 			self.code = response.url.split('code=')[1].split('&')[0]
 		except:
-			print(self.name+'密码错误')
 			raise PassWordException
 		result = requests.get('http://wx.yysports.com/limitelottery/regist/checkssologin?code='+self.code+'&redirecturl=form.html')
 		self.uid = result.headers['Set-Cookie'].split('uid=')[1].split(';Max-Age')[0]
@@ -139,7 +138,7 @@ class ShengdaoClient:
 
 	def search_activity(self): 
 		activities = []										  
-		result = requests.get('http://wx.yysports.com/limitelottery/activity',headers=self.auth)
+		result = requests.get('http://wx.yysports.com/limitelotterybeijing/activity?activityId=926',headers=self.auth)
 		# print(result.text)
 		for shoe in json.loads(result.text):
 			activities.append({'activityItemId':shoe['activityItemId'],'itemName':shoe['itemName'],"activityShops":shoe['activityShops'],"shoesSizes":shoe['shoesSizes']})
@@ -185,7 +184,7 @@ class ShengdaoClient:
 		for shoe in self.activities:
 			data = [{"activityItemId":shoe['activityItemId'],"activity ShopId":"1640"}]
 			data = json.dumps(data)
-			response = requests.post('http://wx.yysports.com/limitelottery/activity', headers=headers,data=data)
+			response = requests.post('http://wx.yysports.com/limitelotterybeijing/activity?activityId=926', headers=headers,data=data)
 			if response.status_code == 200:
 				print(self.name + ' ' + shoe['itemName'] + ' ' + '登记成功')
 				self.activities = self.search_activity()
@@ -220,7 +219,7 @@ class ShengdaoClient:
 				data = [{"activityItemId":activityItemId,"activityShopId":activityShopId,"shoesSize":shoesSize}]
 
 			data = json.dumps(data)
-			response = requests.post('http://wx.yysports.com/limitelottery/activity', headers=headers,data=data)
+			response = requests.post('http://wx.yysports.com/limitelotterybeijing/activity', headers=headers,data=data)
 			if response.status_code == 200:
 				print(self.name + ' ' + shoeName + ' ' + '登记成功')
 				self.activities = self.search_activity()
@@ -237,7 +236,7 @@ class ShengdaoClient:
 
 	def search_register(self):
 		shoes = []
-		result = requests.get('http://wx.yysports.com/limitelottery/activity/registitems',headers=self.auth)
+		result = requests.get('http://wx.yysports.com/limitelotterybeijing/activity/registitems',headers=self.auth)
 		for shoe in json.loads(result.text):
 			if len(shoe['activityShops']) != 0: # 存在没有shop的情况
 				shoes.append({'itemName':shoe['itemName'],'shopName':shoe['activityShops'][0]['shopName'],'state':shoe_state[shoe['state']]})

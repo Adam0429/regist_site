@@ -119,7 +119,7 @@ def getbar(filename):
 def search_regist(filename):
 	datas = file_processing(os.path.join(session['path'],filename))
 	bar_path = os.path.join(session['path'],'result',filename+'bar.txt')
-	f = open(os.path.join(session['path'],'result',filename+'_search_regist.txt'), "w+")
+	f = open(os.path.join(session['path'],'result',filename+'_regist_regist.txt'), "w+")
 	for data in tqdm(datas,file=open(bar_path,'w+'),ncols=80):
 		client = ShengdaoClient(data[1],data[2],data[0])
 		shoes = client.search_register()
@@ -127,11 +127,19 @@ def search_regist(filename):
 			f.write(''.join([data[0],shoe['itemName'],shoe['shopName'],shoe['state'],'\n']))
 			f.flush()
 
-@app.route('/search_result/<filename>',methods=['GET','POST'])
-def search_result(filename):
-	f = open(os.path.join(session['path'],'result',filename+'_search_regist.txt'), "r+")
+@app.route('/regist_result/<filename>',methods=['GET','POST'])
+def regist_result(filename):
+	f = open(os.path.join(session['path'],'result',filename+'_regist_regist.txt'), "r+")
 	return render_template('search_result.html',datas=f.readlines())
 
+@app.route('/lucky_result/<filename>',methods=['GET','POST'])
+def lucky_result(filename):
+	f = open(os.path.join(session['path'],'result',filename+'_regist_regist.txt'), "r+")
+	lines = []
+	for line in f.readlines():
+		if '中签' in line:
+			lines.append(line)
+	return render_template('search_result.html',datas=lines)
 
 if __name__ == '__main__':
 	# parser = argparse.ArgumentParser()

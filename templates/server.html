@@ -9,8 +9,9 @@
 	<div><text id = 'file_name'>{{ file_name }}</text></div>
 	<div><text id = 'bar'></text><div>
 	共有{{ numbers }}个账号 
-	<div><button id='search'>查询登记</button></div>
-	<div><a href="/search_result/{{ file_name }}" id='regist_result'>登记结果</div>
+	<div><button id='search'>查询登记名单</button></div>
+	<div><a href="/regist_result/{{ file_name }}" id='regist_result'>登记名单</div>
+	<div><a href="/lucky_result/{{ file_name }}" id='lucky_result'>中签名单</div>
 	{% for data in datas %}
 		<div><a href=''>{{ data[0] }}</a></div>
 	{% endfor %}

@@ -121,7 +121,7 @@ def search_regist(filename):
 	bar_path = os.path.join(session['path'],'result',filename+'bar.txt')
 	f = open(os.path.join(session['path'],'result',filename+'_regist_regist.txt'), "w+")
 	for data in tqdm(datas,file=open(bar_path,'w+'),ncols=80):
-		client = ShengdaoClient(data[1],data[2],data[0])
+		client = ShengdaoClient(data[1],data[2],data[0],'')
 		shoes = client.search_register()
 		for shoe in shoes:
 			f.write(''.join([data[0],shoe['itemName'],shoe['shopName'],shoe['state'],'\n']))
